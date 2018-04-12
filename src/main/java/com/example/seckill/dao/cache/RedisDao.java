@@ -23,6 +23,7 @@ public class RedisDao {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JedisPool jedisPool;
+    private final String BASE_KEY = "killProduct:";
 
     public RedisDao(@Value("${redis.ip}")String ip,@Value("${redis.port}")int port){
         jedisPool = new JedisPool(ip,port);
@@ -38,7 +39,7 @@ public class RedisDao {
     public KillProduct getKillProduct(String killProductId){
         try {
             try(Jedis jedis = jedisPool.getResource();){
-                String key = "killProduct:" + killProductId;
+                String key = BASE_KEY + killProductId;
                 byte[] bytes = jedis.get(key.getBytes());
                 if(bytes != null){
                     KillProduct killProduct = schema.newMessage();
@@ -61,7 +62,7 @@ public class RedisDao {
     public String putKillProduct(KillProduct killProduct){
         try{
             try (Jedis jedis = jedisPool.getResource()){
-                String key = "killProduct:" + killProduct.getId();
+                String key = BASE_KEY + killProduct.getId();
                 byte[] bytes = ProtostuffIOUtil.toByteArray(killProduct,schema,
                     LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
                 //缓存一小时
