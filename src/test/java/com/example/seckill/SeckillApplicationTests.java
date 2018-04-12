@@ -1,6 +1,7 @@
 package com.example.seckill;
 
 import com.example.seckill.applicationService.ISecKillApplicationService;
+import com.example.seckill.dao.cache.RedisDao;
 import com.example.seckill.dao.entity.KillProduct;
 import com.example.seckill.dto.Execution;
 import com.example.seckill.dto.Exposer;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +27,8 @@ public class SeckillApplicationTests {
 	private ISecKillApplicationService seckillApplication;
 	@Autowired
 	private ISecKillQueryService secKillQueryService;
+	@Autowired
+	private RedisDao redisDao;
 
 	@Test
 	public void findAll(){
@@ -48,6 +52,18 @@ public class SeckillApplicationTests {
 		Execution execution = seckillApplication.executeSecKill("test",13668105960L,
 		"6528b551f25146f6f9756540d74cca5b");
 		logger.info("execution:{}",execution);
+	}
+
+	@Test
+	public void redisSave(){
+		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("1");
+		redisDao.putKillProduct(killProductOptional.get());
+	}
+
+	@Test
+	public void redisGet(){
+		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("1");
+		logger.info("result:{}",redisDao.getKillProduct(killProductOptional.get().getId()));
 	}
 
 }

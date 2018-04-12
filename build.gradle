@@ -38,7 +38,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 //	compile('org.springframework.boot:spring-boot-starter-redis')
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
-
+	compile group: 'io.protostuff', name: 'protostuff-core', version: '1.6.0'
+	compile group: 'io.protostuff', name: 'protostuff-runtime', version: '1.6.0'
 
 	compile "com.alibaba:druid:${druidVersion}"
 	compile "org.projectlombok:lombok:${lombokVersion}"
