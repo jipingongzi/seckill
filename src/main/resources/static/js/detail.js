@@ -98,7 +98,7 @@ var seckill = {
                                 //显示秒杀结果
                                 node.html('<span class="label label-success">' + statusInfo + '</span>')
                             }else {
-                                node.html('<span class="label label-success">' + result[''] + '</span>')
+                                node.html('<span class="label label-success">' + result['error'] + '</span>')
                             }
                         });
                     });

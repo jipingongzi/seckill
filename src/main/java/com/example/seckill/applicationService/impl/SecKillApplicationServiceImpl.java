@@ -4,6 +4,7 @@ import com.example.seckill.applicationService.ISecKillApplicationService;
 import com.example.seckill.common.status.KillStatus;
 import com.example.seckill.common.utils.IdUtil;
 import com.example.seckill.common.utils.Md5Util;
+import com.example.seckill.configuration.cache.CacheName;
 import com.example.seckill.dao.entity.KillItem;
 import com.example.seckill.dao.repository.KillItemJpaRepo;
 import com.example.seckill.dao.repository.KillProductJpaRepo;
@@ -12,6 +13,8 @@ import com.example.seckill.exception.KillClosedException;
 import com.example.seckill.exception.RepeatKillException;
 import com.example.seckill.exception.SecKillException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -21,6 +24,7 @@ import java.util.Date;
 /**
  * @author ibm
  */
+@CacheConfig(cacheNames = CacheName.KILL_PRODUCT)
 @Service
 public class SecKillApplicationServiceImpl implements ISecKillApplicationService{
 
@@ -31,6 +35,7 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
     private KillItemJpaRepo killItemJpaRepo;
 
     @Override
+    @CacheEvict(key = "#killProductId")
     @Transactional(rollbackFor = RuntimeException.class)
     public Execution executeSecKill(String killProductId, long mobile, String md5) throws SecKillException, RepeatKillException, KillClosedException {
         if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){

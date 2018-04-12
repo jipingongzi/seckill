@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@SuppressWarnings("all")
 public class SeckillApplicationTests {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -62,7 +63,7 @@ public class SeckillApplicationTests {
 
 	@Test
 	public void redisGet(){
-		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("1");
+		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("2");
 		logger.info("result:{}",redisDao.getKillProduct(killProductOptional.get().getId()));
 	}
 

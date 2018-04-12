@@ -27,7 +27,7 @@ public class RedisDao {
     private final RuntimeSchema<KillProduct> schema = RuntimeSchema.createFrom(KillProduct.class);
     private final String BASE_KEY = "killProduct:";
 
-    public RedisDao(@Value("${redis.ip}")String ip,@Value("${redis.port}")int port){
+    public RedisDao(@Value("${spring.redis.host}")String ip,@Value("${spring.redis.port}")int port){
         jedisPool = new JedisPool(ip,port);
     }
 

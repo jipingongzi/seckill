@@ -24,8 +24,8 @@ repositories {
 }
 
 ext {
-	druidVersion='1.0.29'
-	lombokVersion='1.16.16'
+	druidVersion = '1.0.29'
+	lombokVersion = '1.16.16'
 }
 dependencies {
 
@@ -36,7 +36,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-//	compile('org.springframework.boot:spring-boot-starter-redis')
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
+
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 	compile group: 'io.protostuff', name: 'protostuff-core', version: '1.6.0'
 	compile group: 'io.protostuff', name: 'protostuff-runtime', version: '1.6.0'
