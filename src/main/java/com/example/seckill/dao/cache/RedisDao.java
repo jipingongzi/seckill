@@ -34,7 +34,6 @@ public class RedisDao {
             Jedis jedis = jedisPool.getResource();
             try{
                 String key = "killProduct:" + killProductId;
-
             }finally {
                 jedis.close();
             }
