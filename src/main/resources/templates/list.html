@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>秒杀列表</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h1>秒杀列表</h1>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>库存</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!--循环秒杀商品-->
+                        <tr th:each="killProduct:${list}">
+                            <td th:text="${killProduct.killDescription}"></td>
+                            <td th:text="${killProduct.number}"></td>
+                            <td th:text="${#dates.format(killProduct.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(killProduct.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td>
+                                <a class="btn btn-info"
+                                   th:href="@{/secKill/{killProductId}/detail(killProductId=${killProduct.id})}"
+                                   target="_blank">
+                                    查看详情
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

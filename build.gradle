@@ -1,0 +1,48 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	druidVersion='1.0.29'
+	lombokVersion='1.16.16'
+}
+dependencies {
+
+	runtime('mysql:mysql-connector-java')
+
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+//	compile('org.springframework.boot:spring-boot-starter-redis')
+	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+
+
+	compile "com.alibaba:druid:${druidVersion}"
+	compile "org.projectlombok:lombok:${lombokVersion}"
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+

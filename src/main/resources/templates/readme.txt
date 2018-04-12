@@ -1,0 +1,2 @@
+static文件夹存放js与css；
+template文件夹存放html模板；

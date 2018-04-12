@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>body test</title>
+</head>
+<body>
+<form action="/secKill/test" method="post">
+    <p>data: <input type="text" name="formData" /></p>
+    <input type="submit" value="Submit" />
+</form>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var idList = new Array();
+    idList.push('1');
+    idList.push('2');
+    idList.push('3');
+    $.ajax({
+        type: "POST",
+        url: "/secKill/test",
+        dataType: 'json',
+        contentType:'application/json',
+        data: JSON.stringify(idList),
+        success: function(data){
+
+        },
+        error: function(res){
+        }
+    });
+</script>
+</body>
+</html>
