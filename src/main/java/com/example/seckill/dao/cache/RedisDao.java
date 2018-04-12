@@ -22,14 +22,15 @@ import redis.clients.jedis.JedisPool;
 public class RedisDao {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final JedisPool jedisPool;
+    private final RuntimeSchema<KillProduct> schema = RuntimeSchema.createFrom(KillProduct.class);
     private final String BASE_KEY = "killProduct:";
 
     public RedisDao(@Value("${redis.ip}")String ip,@Value("${redis.port}")int port){
         jedisPool = new JedisPool(ip,port);
     }
 
-    private RuntimeSchema<KillProduct> schema = RuntimeSchema.createFrom(KillProduct.class);
 
     /**
      * 通过redis获取一个缓存对象
