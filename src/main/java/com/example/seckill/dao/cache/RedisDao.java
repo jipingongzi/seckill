@@ -42,6 +42,7 @@ public class RedisDao {
         }
         return null;
     }
+
     /**
      * 存储一个对象到redis
      * @param killProduct 需要存储的秒杀商品
