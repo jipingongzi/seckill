@@ -37,8 +37,7 @@ public class RedisDao {
      */
     public KillProduct getKillProduct(String killProductId){
         try {
-            Jedis jedis = jedisPool.getResource();
-            try{
+            try(Jedis jedis = jedisPool.getResource();){
                 String key = "killProduct:" + killProductId;
                 byte[] bytes = jedis.get(key.getBytes());
                 if(bytes != null){
@@ -47,8 +46,6 @@ public class RedisDao {
                     ProtostuffIOUtil.mergeFrom(bytes,killProduct,schema);
                     return killProduct;
                 }
-            }finally {
-                jedis.close();
             }
         }catch (Exception e){
             logger.error(e.getMessage(),e);
@@ -63,8 +60,7 @@ public class RedisDao {
      */
     public String putKillProduct(KillProduct killProduct){
         try{
-            Jedis jedis = jedisPool.getResource();
-            try {
+            try (Jedis jedis = jedisPool.getResource()){
                 String key = "killProduct:" + killProduct.getId();
                 byte[] bytes = ProtostuffIOUtil.toByteArray(killProduct,schema,
                     LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
@@ -72,8 +68,6 @@ public class RedisDao {
                 int timeout = 60 * 60;
                 String result = jedis.setex(key.getBytes(),timeout,bytes);
                 return result;
-            }finally {
-                jedis.close();
             }
         }catch (Exception e){
             logger.error(e.getMessage(),e);

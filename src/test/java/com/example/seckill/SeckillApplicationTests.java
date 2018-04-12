@@ -56,7 +56,7 @@ public class SeckillApplicationTests {
 
 	@Test
 	public void redisSave(){
-		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("1");
+		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("2");
 		redisDao.putKillProduct(killProductOptional.get());
 	}
 
