@@ -24,6 +24,11 @@ public class RedisDao {
         jedisPool = new JedisPool(ip,port);
     }
 
+    /**
+     * 通过redis获取一个缓存对象
+     * @param killProductId 秒杀商品id
+     * @return 秒杀商品
+     */
     public KillProduct getKillProduct(long killProductId){
         try {
             Jedis jedis = jedisPool.getResource();
@@ -39,6 +44,11 @@ public class RedisDao {
         return null;
     }
 
+    /**
+     * 存储一个对象到redis
+     * @param killProduct 需要存储的秒杀商品
+     * @return 成功的话redis返回：OK
+     */
     public String putKillProduct(KillProduct killProduct){
         return null;
     }
