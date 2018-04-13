@@ -4,7 +4,7 @@ import com.example.seckill.applicationService.ISecKillApplicationService;
 import com.example.seckill.common.status.KillStatus;
 import com.example.seckill.common.utils.IdUtil;
 import com.example.seckill.common.utils.Md5Util;
-import com.example.seckill.configuration.cache.CacheName;
+import com.example.seckill.configuration.cache.RedisCacheName;
 import com.example.seckill.dao.entity.KillItem;
 import com.example.seckill.dao.repository.KillItemJpaRepo;
 import com.example.seckill.dao.repository.KillProductJpaRepo;
@@ -24,7 +24,7 @@ import java.util.Date;
 /**
  * @author ibm
  */
-@CacheConfig(cacheNames = CacheName.KILL_PRODUCT)
+@CacheConfig(cacheNames = RedisCacheName.KILL_PRODUCT)
 @Service
 public class SecKillApplicationServiceImpl implements ISecKillApplicationService{
 

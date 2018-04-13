@@ -6,7 +6,7 @@ package com.example.seckill.configuration.cache;
  * @since 0
  * @date 2018-4-12
  */
-public interface CacheName {
+public interface RedisCacheName {
     /**
      * 秒杀商品缓存名称
      */

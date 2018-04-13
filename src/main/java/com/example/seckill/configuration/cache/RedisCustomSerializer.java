@@ -17,13 +17,11 @@ import org.springframework.lang.Nullable;
 public class RedisCustomSerializer implements RedisSerializer {
 
     private final RuntimeSchema<KillProduct> schema = RuntimeSchema.createFrom(KillProduct.class);
-    public static final String BASE_KEY = "killProduct:";
 
     @Nullable
     @Override
     public byte[] serialize(@Nullable Object o) throws SerializationException {
         KillProduct killProduct = (KillProduct)o;
-        String key = BASE_KEY + killProduct.getId();
         byte[] bytes = ProtostuffIOUtil.toByteArray(killProduct,schema,
                 LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
         return bytes;

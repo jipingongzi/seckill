@@ -1,8 +1,8 @@
 package com.example.seckill.queryService.impl;
 
 import com.example.seckill.common.utils.Md5Util;
-import com.example.seckill.configuration.cache.CacheName;
-import com.example.seckill.configuration.cache.RedisCustomSerializer;
+import com.example.seckill.configuration.cache.RedisCacheName;
+import com.example.seckill.configuration.cache.RedisCustomKeyGenerator;
 import com.example.seckill.dao.entity.KillProduct;
 import com.example.seckill.dao.repository.KillProductJpaRepo;
 import com.example.seckill.dto.Exposer;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@CacheConfig(cacheNames = CacheName.KILL_PRODUCT)
+@CacheConfig(cacheNames = RedisCacheName.KILL_PRODUCT)
 @Service
 public class SecKillQueryServiceImpl implements ISecKillQueryService {
 
@@ -33,7 +33,7 @@ public class SecKillQueryServiceImpl implements ISecKillQueryService {
     }
 
     @Override
-    @Cacheable(key = "#killProductId")
+    @Cacheable(keyGenerator = "keyGenerator")
     public Optional<KillProduct> getKillProductById(String killProductId) {
         return killProductJpaRepo.findById(killProductId);
     }
@@ -42,7 +42,8 @@ public class SecKillQueryServiceImpl implements ISecKillQueryService {
     public Exposer exportSecKillUrl(String killProductId) {
         KillProduct killProduct;
         //通过redis缓存
-        Object redisResult = redisTemplate.opsForValue().get(RedisCustomSerializer.BASE_KEY + ":" + killProductId);
+        Object redisResult = redisTemplate.opsForValue().get(
+                RedisCustomKeyGenerator.getKey4CacheName(RedisCacheName.KILL_PRODUCT) + killProductId);
         if(redisResult != null){
             killProduct = (KillProduct)redisResult;
         }else {
