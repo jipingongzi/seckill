@@ -21,7 +21,6 @@ import java.time.Duration;
  * @date 2018-4-12
  */
 @Configuration
-@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
     @Override
