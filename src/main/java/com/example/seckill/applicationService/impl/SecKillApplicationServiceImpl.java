@@ -35,7 +35,7 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
     private KillItemJpaRepo killItemJpaRepo;
 
     @Override
-    @CacheEvict(key = "#killProductId")
+    @CacheEvict(keyGenerator = "keyGenerator")
     @Transactional(rollbackFor = RuntimeException.class)
     public Execution executeSecKill(String killProductId, long mobile, String md5) throws SecKillException, RepeatKillException, KillClosedException {
         if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){
