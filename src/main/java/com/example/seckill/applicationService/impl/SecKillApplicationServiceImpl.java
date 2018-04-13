@@ -39,7 +39,7 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
     @Transactional(rollbackFor = RuntimeException.class)
     public Execution executeSecKill(String killProductId, long mobile, String md5) throws SecKillException, RepeatKillException, KillClosedException {
         if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){
-            throw new SecKillException("秒杀数据被篡改");
+            throw new SecKillException(KillStatus.REWRITE.getInfo());
         }
         //执行秒杀逻辑：减库存 + 插入秒杀明细
         try{
@@ -65,5 +65,12 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
         }catch (Exception e){
             throw new SecKillException(KillStatus.INNER_ERROR.getInfo());
         }
+    }
+
+    public Execution executeSecKillProcedure(String killProductId, long mobile, String md5){
+        if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){
+            throw new SecKillException(KillStatus.REWRITE.getInfo());
+        }
+        return null;
     }
 }
