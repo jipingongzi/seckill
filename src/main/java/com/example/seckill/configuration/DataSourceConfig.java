@@ -1,7 +1,11 @@
 package com.example.seckill.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,6 +32,29 @@ public class DataSourceConfig {
         return getDataSource(url, username, password,initialSize,minIdle,maxActive);
     }
 
+    @Bean
+    public ServletRegistrationBean druidServlet() {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+        // IP白名单 (没有配置或者为空，则允许所有访问)
+        servletRegistrationBean.addInitParameter("allow", "");
+        // IP黑名单(共同存在时，deny优先于allow)
+        servletRegistrationBean.addInitParameter("deny", "192.168.1.100");
+        //控制台管理用户
+        servletRegistrationBean.addInitParameter("loginUsername", "admin");
+        servletRegistrationBean.addInitParameter("loginPassword", "admin");
+        //是否能够重置数据 禁用HTML页面上的“Reset All”功能
+        servletRegistrationBean.addInitParameter("resetEnable", "false");
+        return servletRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+        return filterRegistrationBean;
+    }
+
     private DataSource getDataSource(String url, String username, String password,int initialSize,int minIdle,int maxActive) throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(url);
@@ -49,7 +76,7 @@ public class DataSourceConfig {
         dataSource.setUseGlobalDataSourceStat(true);
         Properties properties = new Properties();
         properties.setProperty("druid.stat.mergeSql","true");
-        properties.setProperty("druid.stat.slowSqlMillis","1000");
+        properties.setProperty("druid.stat.slowSqlMillis","1");
         dataSource.setConnectProperties(properties);
     }
 }
