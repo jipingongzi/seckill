@@ -4,9 +4,11 @@ import com.example.seckill.dao.entity.KillProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ibm
@@ -32,4 +34,7 @@ public interface KillProductJpaRepo extends JpaRepository<KillProduct,String>{
     @Query(value = "UPDATE kill_product SET number = number - 1 WHERE id = ?1 AND number >= 1 AND end_time > ?2",
     nativeQuery = true)
     int reduceNumber(String id,Date time);
+
+    @Procedure(value = "execute_seckill")
+    void executeKillProcedure(Map params);
 }

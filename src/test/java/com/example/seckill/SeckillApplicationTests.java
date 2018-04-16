@@ -45,7 +45,7 @@ public class SeckillApplicationTests {
 
 	@Test
 	public void expose(){
-		Exposer exposer = secKillQueryService.exportSecKillUrl("test");
+		Exposer exposer = secKillQueryService.exportSecKillUrl("1");
 		logger.info("exposer:{}",exposer);
 	}
 	@Test
@@ -65,6 +65,13 @@ public class SeckillApplicationTests {
 	public void redisGet(){
 		Optional<KillProduct> killProductOptional = secKillQueryService.getKillProductById("2");
 		logger.info("result:{}",redisDao.getKillProduct(killProductOptional.get().getId()));
+	}
+
+	@Test
+	public void procedure(){
+		Exposer exposer = secKillQueryService.exportSecKillUrl("1");
+		logger.info("exposer:{}",exposer);
+		seckillApplication.executeSecKillProcedure("1",134245685432L,exposer.getMd5());
 	}
 
 }

@@ -2,10 +2,7 @@ package com.example.seckill.dao.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,6 +13,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "kill_item")
+@NamedStoredProcedureQuery(name = "executeSeckill", procedureName = "execute_seckill", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_id", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_kill_product_id", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_mobile", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "v_kill_time", type = Date.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "r_result", type = Integer.class) })
 @Data
 public class KillItem {
 

@@ -4,7 +4,10 @@ import com.example.seckill.dao.entity.KillItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,4 +35,11 @@ public interface KillItemJpaRepo extends JpaRepository<KillItem,String> {
     @Query(value = "INSERT IGNORE INTO kill_item(id,kill_product_id,mobile) values(?1,?2,?3)",
             nativeQuery = true)
     int insertKillItem(String id,String killProductId,long mobile);
+
+
+    @Procedure(procedureName = "execute_seckill")
+    int executeProcedure(@Param("v_id")String killItemId,
+                         @Param("v_kill_product_id")String killProductId,
+                         @Param("v_mobile")long mobile,
+                         @Param("v_kill_time")Date killTime);
 }

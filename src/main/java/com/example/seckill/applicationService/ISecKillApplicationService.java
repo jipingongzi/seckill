@@ -22,4 +22,12 @@ public interface ISecKillApplicationService {
     Execution executeSecKill(String killProductId, long mobile, String md5)
         throws SecKillException,RepeatKillException,KillClosedException;
 
+    /**
+     * 在高并发的情况下，使用存储过程减少行级锁持有的时间
+     * @param killProductId 秒杀商品id
+     * @param mobile 用户手机号码
+     * @param md5 秒杀活动md5
+     */
+    Execution executeSecKillProcedure(String killProductId, long mobile, String md5);
+
 }

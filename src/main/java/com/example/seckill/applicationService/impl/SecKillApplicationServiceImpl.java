@@ -15,11 +15,15 @@ import com.example.seckill.exception.SecKillException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
+
 
 /**
  * @author ibm
@@ -67,10 +71,22 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
         }
     }
 
+    @Override
     public Execution executeSecKillProcedure(String killProductId, long mobile, String md5){
         if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){
             throw new SecKillException(KillStatus.REWRITE.getInfo());
         }
-        return null;
+        String itemId = IdUtil.getObjectId();
+        int reuslt = killItemJpaRepo.executeProcedure(itemId,killProductId,mobile,new Date());
+        if(KillStatus.SUCCESS.getValue() == reuslt){
+            KillItem killItem = killItemJpaRepo.findById(itemId).get();
+            return new Execution(killProductId, KillStatus.SUCCESS,killItem);
+        }else if(KillStatus.REPEAT_KILL.getValue() == reuslt){
+            throw new RepeatKillException(KillStatus.REPEAT_KILL.getInfo());
+        }else if(KillStatus.END.getValue() == reuslt){
+            throw new KillClosedException(KillStatus.END.getInfo());
+        }else {
+            throw new SecKillException(KillStatus.INNER_ERROR.getInfo());
+        }
     }
 }

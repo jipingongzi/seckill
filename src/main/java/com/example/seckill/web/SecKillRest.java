@@ -93,7 +93,7 @@ public class SecKillRest {
         if(mobile == null){
             throw new SecKillException("用户未登录");
         }
-        return secKillApplicationService.executeSecKill(killProductId,mobile,md5);
+        return secKillApplicationService.executeSecKillProcedure(killProductId,mobile,md5);
     }
     /**
      * 获取当前系统时间
