@@ -1,7 +1,6 @@
 package com.example.seckill.configuration.cache;
 
 import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +41,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     /**
      *  设置 redis 数据默认过期时间
      *  设置@cacheable 序列化方式
-     * @return
+     *  @return
      */
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration(){

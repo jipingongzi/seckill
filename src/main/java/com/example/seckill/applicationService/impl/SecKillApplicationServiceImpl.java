@@ -69,6 +69,7 @@ public class SecKillApplicationServiceImpl implements ISecKillApplicationService
     }
 
     @Override
+    @CacheEvict(keyGenerator = "keyGenerator")
     public Execution executeSecKillProcedure(String killProductId, long mobile, String md5){
         if(StringUtils.isEmpty(md5) || !md5.equals(Md5Util.getMd5(killProductId))){
             throw new SecKillException(KillStatus.REWRITE.getInfo());
