@@ -47,7 +47,7 @@ public class SecKillRest {
     public String getList(Model model){
         List<KillProduct> list = secKillQueryService.getKillProductList();
         model.addAttribute("list",list);
-        return "/list";
+        return "list";
     }
     /**
      * 秒杀详情页
